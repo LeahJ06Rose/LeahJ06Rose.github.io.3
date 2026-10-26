@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Leah's Project</title>
+        <style>
+            .project-container
+            {
+                display: flex;
+                gap: 20px;
+            }
+
+            img {
+                width: 200px;
+                height: auto;
+            }
+
+            section {
+                padding: 20px;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: white;
+                color: black;
+            }
+
+            .dark-mode {
+                background-color: #121212;
+                color: #f0f0f0;
+            }
+
+            header, nav, main, footer {
+                margin-bottom: 20px;
+            }
+
+            nav a {
+                margin-right: 15px;
+                text-decoration: none;
+            }
+
+            #skills-list {
+                margin: 10px 0;
+                padding-left: 20px;
+            }
+
+            form input, form textarea {
+                display: block;
+                margin-bottom: 10px;
+                width: 300px;
+            }
+
+            .toggle-container {
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <h1 id="welcomeMessage">Weclome!</h1>
+
+            <!-- Dark Mode Toggle -->
+             <div class="toggle-container">
+                <label>
+                    <input type="checkbox" id="dark-mode-toggle">
+                    Dark Mode
+                </label>
+             </div>
+        </header>
+
+        <!-- The three secctions -->
+        <nav>
+            <a href="#about">About</a>
+            <a href="#featured">Featured Content</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <section id="about">
+            <h2>About Me</h2>
+            <p>
+                Hello, I'm Leah Jones. I'm currently attending ECPI University as an Software
+                Development major. I'm 19 years old, my family includes: my mom, my dad, my
+                little sister and our dog.
+            </p>
+
+            <h3>My Skills</h3>
+            <ul id="skillsList"></ul>
+        </section>
+
+        <section id="featured">
+            <h2>Feature Content</h2>
+
+            <!-- University Resources -->
+            <div id="universityResources">
+                <h3>University Resources</h3>
+                <p><a href="https://ecpi.instructure.com/courses/167424" target="_blank">ECPI University Homepage</a></p>
+            </div>
+
+            <!-- Personal Projects -->
+            <div id="personalProjects">
+                <h3>Personal Projects</h3>
+                <a href="https://github.com/placeholder1" target="_blank">
+                    <img src="https://via.placeholder.com/200" alt="Project A">
+                </a>
+                <a href="https://github.via.placeholder2" target="_blank">
+                    <img src="https://via.placeholder.com/200" alt="Project B">
+                </a>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>Projects</h2>
+            <div class="project-container">
+                <a href="https://github.com/LeahJ06Rose/Leah-s_Tea_Party">
+                    Leah's Tea Party
+                </a>
+                <a href="https://github.com/LeahJ06Rose/Final_Leah-s_Employee_Project">
+                    My Employee List
+                </a>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Me</h2>
+            <form>
+                <label for="senderName">My Name:</label>
+                <input type="text" id="senderName" name="senderName">
+
+                <label for="senderEmail">My Email:</label><br>
+                <input type="email" id="senderEmail" name="senderEmail">
+
+                <label for="subject">Subject:</label><br>
+                <input type="text" id="subject" name="subject">
+
+                <label for="message">Message:</label><br>
+                <textarea id="message" name="message" rows="5"></textarea><br><br>
+
+                <button type="submit" id="submitBtn">Submit</button>
+            </form>
+        </section>
+
+        <footer>
+            <p>@ 2026 Leah Jones</p>
+        </footer>
+
+        <!-- JavaScript portion -->
+        <script>
+            //Prompt user for their name
+            const userName = prompt("Welcome! What's your name?");
+
+            //Update welcome message dynamically
+            if (userName && userName.trim() !== "")
+        {
+            document.getElementById("welcomeMessage").textContent = "Welcome, " + userName + "!";
+        }
+
+        else
+        {
+            document.getElementById("welcomeMessage").textContent = "Welcome to my portflio!";
+        }
+
+        //Skills Array and Loop
+        const skills = ["HTML", "CSS", "Python", "React", "C#"];
+        const skillsList = document.getElementById("skillsList");
+
+        skills.forEach(skill => {
+            const li = document.createElement("li");
+            li.textContent = skill;
+            skillsList.appendChild(li);
+        });
+
+        //Featured Content Logic
+        const projectCount = 3;
+        const universityDiv = document.getElementById("universityResources");
+        const personalDiv = document.getElementById("personProjects");
+
+        if (projectCount < 3) {
+            universityDiv.style.display = "block";
+            personalDiv.style.display = "block";
+        }
+        else {
+            universityDiv.style.display = "none";
+            personalDiv.style.display = "block";
+        }
+
+        //Dark Mode Toggle
+        const toggle = document.getElementById("dark-mode-toggle");
+        toggle.addEventListener("change", function() {
+            document.body.classList.toggle("dark-mode");
+        });
+        
+        //Form Submit Interactivity
+        const submitBtn = document.getElementById("submitBtn");
+
+        submitBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById("senderName").value;
+
+            // Create loading message
+            let statusMessage = document.getElementById("statusMessage");
+
+            if (!statusMessage) {
+                statusMessage = document.createElement("p");
+                statusMessage.id = "statusMessage";
+                document.getElementById("contactForm").appendChild(statusMessage);
+            }
+
+            statusMessage.textContent = "Sending message...";
+            statusMessage.style.color = "orange";
+
+            // Delayed confirmation
+            setTimeout(() => {
+                statusMessage.textContent = 'Thank you, ${name}! Your message has been sent successfully.';
+
+                statusMessage.style.color = "green";
+            }, 3000);
+
+            alert("Thank you, " + name + "your message has been sent!");
+        });
+
+        // Dynamic notification after page load
+        setTimeout(() => {
+            const notification = document.createElement("p");
+
+            notification.textContent = 
+            "Check out my newest web development projects below!";
+
+            notification.stle.backgroundColor = "gold";
+            notification.style.padding = "10px";
+            notification.style.textAlign = "center";
+            notification.style.fontWeight = "bold";
+
+            document.body.prepend(notification);
+        }, 2000);
+
+        // Change About heading
+        const aboutHeading = document.querySelector("#about h2");
+        aboutHeading.textContent = "About Me";
+
+        // Add styling
+        aboutHeading.style.color = "navy";
+
+        // Modify Projects section
+        const projectsSection = document.getElementById("projects");
+
+        projectsSection.style.border = "3px solid navy";
+        projectsSection.style.padding = "20px";
+        </script>
+    </body>
+</html>
